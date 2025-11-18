@@ -1,4 +1,4 @@
-# App
+# lazi-core-cli
 
 A command management and automation ecosystem combining a powerful CLI tool and a visual script builder for creating and executing PowerShell and Bash scripts.
 
