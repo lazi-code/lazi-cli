@@ -1,0 +1,143 @@
+{
+  "metadata": {
+    "name": "Simple File Reader",
+    "description": "Reads a file and prints its content to the console",
+    "author": "Test Suite",
+    "createdAt": "2025-01-04T00:00:00.000Z",
+    "scriptType": "powershell",
+    "version": "1.0"
+  },
+  "workflow": {
+    "nodes": [
+      {
+        "id": "node-1",
+        "type": "scriptNode",
+        "position": {
+          "x": 100,
+          "y": 100
+        },
+        "data": {
+          "script": {
+            "id": "custom-test-read-file",
+            "name": "Read File",
+            "category": "Input"
+          },
+          "config": {
+            "filePath": "C:\\example\\data.txt",
+            "variableName": "fileContent",
+            "encoding": "utf8"
+          }
+        }
+      },
+      {
+        "id": "node-2",
+        "type": "scriptNode",
+        "position": {
+          "x": 400,
+          "y": 100
+        },
+        "data": {
+          "script": {
+            "id": "custom-test-print-output",
+            "name": "Print Output",
+            "category": "Output"
+          },
+          "config": {
+            "message": "$fileContent",
+            "outputType": "info"
+          }
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-1",
+        "source": "node-1",
+        "target": "node-2",
+        "type": "smoothstep"
+      }
+    ]
+  },
+  "requiredCustomNodes": [
+    {
+      "id": "custom-test-read-file",
+      "name": "Read File",
+      "category": "Input",
+      "description": "Read content from a file into a variable",
+      "fields": [
+        {
+          "key": "filePath",
+          "label": "File Path",
+          "type": "text",
+          "placeholder": "/path/to/file.txt",
+          "helperText": "Path to the file to read",
+          "defaultValue": ""
+        },
+        {
+          "key": "variableName",
+          "label": "Variable Name",
+          "type": "text",
+          "placeholder": "fileContent",
+          "helperText": "Name of variable to store content",
+          "defaultValue": "content"
+        },
+        {
+          "key": "encoding",
+          "label": "Encoding",
+          "type": "select",
+          "options": [
+            { "label": "UTF-8", "value": "utf8" },
+            { "label": "ASCII", "value": "ascii" },
+            { "label": "UTF-16", "value": "utf16" }
+          ],
+          "defaultValue": "utf8"
+        }
+      ],
+      "generators": {
+        "powershell": "(config) => `$${config.variableName} = Get-Content -Path \"${config.filePath}\" -Encoding ${config.encoding === 'utf8' ? 'UTF8' : config.encoding === 'utf16' ? 'Unicode' : 'ASCII'}`",
+        "bash": "(config) => `${config.variableName}=$(cat \"${config.filePath}\")`"
+      },
+      "metadata": {
+        "tags": ["input", "file", "read"],
+        "createdAt": "2025-01-04T00:00:00.000Z",
+        "updatedAt": "2025-01-04T00:00:00.000Z"
+      }
+    },
+    {
+      "id": "custom-test-print-output",
+      "name": "Print Output",
+      "category": "Output",
+      "description": "Display text or variable to console",
+      "fields": [
+        {
+          "key": "message",
+          "label": "Message",
+          "type": "textarea",
+          "placeholder": "Hello, World!",
+          "helperText": "Text or variable to display",
+          "defaultValue": ""
+        },
+        {
+          "key": "outputType",
+          "label": "Output Type",
+          "type": "select",
+          "options": [
+            { "label": "Information", "value": "info" },
+            { "label": "Warning", "value": "warning" },
+            { "label": "Error", "value": "error" }
+          ],
+          "defaultValue": "info"
+        }
+      ],
+      "generators": {
+        "powershell": "(config) => { if (config.outputType === 'warning') return `Write-Warning ${config.message}`; if (config.outputType === 'error') return `Write-Error ${config.message}`; return `Write-Host ${config.message}`; }",
+        "bash": "(config) => { if (config.outputType === 'error') return `echo ${config.message} >&2`; return `echo ${config.message}`; }"
+      },
+      "metadata": {
+        "tags": ["output", "print", "console"],
+        "createdAt": "2025-01-04T00:00:00.000Z",
+        "updatedAt": "2025-01-04T00:00:00.000Z"
+      }
+    }
+  ]
+}

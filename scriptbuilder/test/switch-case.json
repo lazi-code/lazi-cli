@@ -1,0 +1,75 @@
+{
+  "id": "custom-test-switch-case",
+  "name": "Switch-Case",
+  "category": "Testing",
+  "description": "Branch execution based on multiple possible values",
+  "outputHandles": [
+    {
+      "id": "case-1",
+      "label": "Case 1",
+      "position": "left",
+      "color": "#3b82f6"
+    },
+    {
+      "id": "case-2",
+      "label": "Case 2",
+      "position": "bottom",
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "case-3",
+      "label": "Case 3",
+      "position": "right",
+      "color": "#ec4899"
+    },
+    {
+      "id": "default",
+      "label": "Default",
+      "position": "right",
+      "color": "#64748b"
+    }
+  ],
+  "fields": [
+    {
+      "key": "variable",
+      "label": "Variable to Test",
+      "type": "text",
+      "placeholder": "$choice",
+      "helperText": "Variable to match against cases",
+      "defaultValue": ""
+    },
+    {
+      "key": "case1Value",
+      "label": "Case 1 Value",
+      "type": "text",
+      "placeholder": "1",
+      "helperText": "Value for first case",
+      "defaultValue": ""
+    },
+    {
+      "key": "case2Value",
+      "label": "Case 2 Value",
+      "type": "text",
+      "placeholder": "2",
+      "helperText": "Value for second case",
+      "defaultValue": ""
+    },
+    {
+      "key": "case3Value",
+      "label": "Case 3 Value",
+      "type": "text",
+      "placeholder": "3",
+      "helperText": "Value for third case",
+      "defaultValue": ""
+    }
+  ],
+  "generators": {
+    "powershell": "(config, branches) => { let code = `switch (${config.variable}) {\\n`; if (config.case1Value) { code += `    ${config.case1Value} {\\n`; if (branches?.['case-1']) { code += `        ${branches['case-1'].replace(/\\n/g, '\\n        ')}\\n`; } code += `        break\\n`; code += `    }\\n`; } if (config.case2Value) { code += `    ${config.case2Value} {\\n`; if (branches?.['case-2']) { code += `        ${branches['case-2'].replace(/\\n/g, '\\n        ')}\\n`; } code += `        break\\n`; code += `    }\\n`; } if (config.case3Value) { code += `    ${config.case3Value} {\\n`; if (branches?.['case-3']) { code += `        ${branches['case-3'].replace(/\\n/g, '\\n        ')}\\n`; } code += `        break\\n`; code += `    }\\n`; } if (branches?.['default']) { code += `    default {\\n`; code += `        ${branches['default'].replace(/\\n/g, '\\n        ')}\\n`; code += `    }\\n`; } code += `}`; return code; }",
+    "bash": "(config, branches) => { let code = `case ${config.variable} in\\n`; if (config.case1Value) { code += `    ${config.case1Value})\\n`; if (branches?.['case-1']) { code += `        ${branches['case-1'].replace(/\\n/g, '\\n        ')}\\n`; } code += `        ;;\\n`; } if (config.case2Value) { code += `    ${config.case2Value})\\n`; if (branches?.['case-2']) { code += `        ${branches['case-2'].replace(/\\n/g, '\\n        ')}\\n`; } code += `        ;;\\n`; } if (config.case3Value) { code += `    ${config.case3Value})\\n`; if (branches?.['case-3']) { code += `        ${branches['case-3'].replace(/\\n/g, '\\n        ')}\\n`; } code += `        ;;\\n`; } if (branches?.['default']) { code += `    *)\\n`; code += `        ${branches['default'].replace(/\\n/g, '\\n        ')}\\n`; code += `        ;;\\n`; } code += `esac`; return code; }"
+  },
+  "metadata": {
+    "tags": ["control-flow", "switch", "case"],
+    "createdAt": "2025-11-03T00:00:00.000Z",
+    "updatedAt": "2025-11-03T00:00:00.000Z"
+  }
+}

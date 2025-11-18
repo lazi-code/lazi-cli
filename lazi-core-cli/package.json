@@ -1,0 +1,25 @@
+{
+  "name": "lazi-core-cli",
+  "version": "1.0.0",
+  "description": "Lazi Core-CLI - Powerful command management and workflow automation tool",
+  "main": "bin/index.js",
+  "bin": {
+    "lazi": "./bin/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["cli", "command", "registry", "shortcuts", "terminal"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.6.2",
+    "commander": "^14.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.6.1",
+    "typescript": "^5.9.3"
+  }
+}

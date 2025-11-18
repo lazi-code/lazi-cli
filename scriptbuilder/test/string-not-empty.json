@@ -1,0 +1,33 @@
+{
+  "id": "custom-test-string-not-empty",
+  "name": "Check String Not Empty",
+  "category": "Testing",
+  "description": "Verify that a variable is not empty",
+  "fields": [
+    {
+      "key": "variableName",
+      "label": "Variable Name",
+      "type": "text",
+      "placeholder": "myVariable",
+      "helperText": "Variable to check",
+      "defaultValue": ""
+    },
+    {
+      "key": "errorMessage",
+      "label": "Error Message",
+      "type": "text",
+      "placeholder": "Variable is empty",
+      "helperText": "Message to display if variable is empty",
+      "defaultValue": "Variable is empty"
+    }
+  ],
+  "generators": {
+    "powershell": "(config) => `if ([string]::IsNullOrWhiteSpace($${config.variableName})) {\\n    Write-Error \"${config.errorMessage}\"\\n    exit 1\\n}`",
+    "bash": "(config) => `if [ -z \"$${config.variableName}\" ]; then\\n    echo \"${config.errorMessage}\" >&2\\n    exit 1\\nfi`"
+  },
+  "metadata": {
+    "tags": ["validation", "string", "check"],
+    "createdAt": "2025-11-03T00:00:00.000Z",
+    "updatedAt": "2025-11-03T00:00:00.000Z"
+  }
+}

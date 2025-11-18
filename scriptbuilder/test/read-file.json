@@ -1,0 +1,44 @@
+{
+  "id": "custom-test-read-file",
+  "name": "Read File",
+  "category": "Testing",
+  "description": "Read content from a file into a variable",
+  "fields": [
+    {
+      "key": "filePath",
+      "label": "File Path",
+      "type": "text",
+      "placeholder": "/path/to/file.txt",
+      "helperText": "Path to the file to read",
+      "defaultValue": ""
+    },
+    {
+      "key": "variableName",
+      "label": "Variable Name",
+      "type": "text",
+      "placeholder": "fileContent",
+      "helperText": "Name of variable to store content",
+      "defaultValue": "content"
+    },
+    {
+      "key": "encoding",
+      "label": "Encoding",
+      "type": "select",
+      "options": [
+        { "label": "UTF-8", "value": "utf8" },
+        { "label": "ASCII", "value": "ascii" },
+        { "label": "UTF-16", "value": "utf16" }
+      ],
+      "defaultValue": "utf8"
+    }
+  ],
+  "generators": {
+    "powershell": "(config) => `$${config.variableName} = Get-Content -Path \"${config.filePath}\" -Encoding ${config.encoding === 'utf8' ? 'UTF8' : config.encoding === 'utf16' ? 'Unicode' : 'ASCII'}`",
+    "bash": "(config) => `${config.variableName}=$(cat \"${config.filePath}\")`"
+  },
+  "metadata": {
+    "tags": ["input", "file", "read"],
+    "createdAt": "2025-11-03T00:00:00.000Z",
+    "updatedAt": "2025-11-03T00:00:00.000Z"
+  }
+}

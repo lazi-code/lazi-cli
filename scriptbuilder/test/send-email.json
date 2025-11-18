@@ -1,0 +1,41 @@
+{
+  "id": "custom-test-send-email",
+  "name": "Send Email",
+  "category": "Testing",
+  "description": "Send an email notification",
+  "fields": [
+    {
+      "key": "to",
+      "label": "To Address",
+      "type": "text",
+      "placeholder": "user@example.com",
+      "helperText": "Recipient email address",
+      "defaultValue": ""
+    },
+    {
+      "key": "subject",
+      "label": "Subject",
+      "type": "text",
+      "placeholder": "Script Notification",
+      "helperText": "Email subject line",
+      "defaultValue": "Script Notification"
+    },
+    {
+      "key": "body",
+      "label": "Body",
+      "type": "textarea",
+      "placeholder": "Message content...",
+      "helperText": "Email body content",
+      "defaultValue": ""
+    }
+  ],
+  "generators": {
+    "powershell": "(config) => `Send-MailMessage -To \"${config.to}\" -Subject \"${config.subject}\" -Body ${config.body} -SmtpServer \"localhost\"`",
+    "bash": "(config) => `echo ${config.body} | mail -s \"${config.subject}\" \"${config.to}\"`"
+  },
+  "metadata": {
+    "tags": ["output", "email", "notification"],
+    "createdAt": "2025-11-03T00:00:00.000Z",
+    "updatedAt": "2025-11-03T00:00:00.000Z"
+  }
+}

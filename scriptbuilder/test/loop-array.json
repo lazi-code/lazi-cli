@@ -1,0 +1,41 @@
+{
+  "id": "custom-test-loop-array",
+  "name": "Loop Over Array",
+  "category": "Testing",
+  "description": "Iterate over items in an array or collection",
+  "fields": [
+    {
+      "key": "arrayVariable",
+      "label": "Array Variable",
+      "type": "text",
+      "placeholder": "myArray",
+      "helperText": "Name of array variable to loop over",
+      "defaultValue": "items"
+    },
+    {
+      "key": "itemVariable",
+      "label": "Item Variable",
+      "type": "text",
+      "placeholder": "item",
+      "helperText": "Variable name for each item",
+      "defaultValue": "item"
+    },
+    {
+      "key": "loopBody",
+      "label": "Loop Body",
+      "type": "textarea",
+      "placeholder": "echo $item",
+      "helperText": "Commands to run for each item",
+      "defaultValue": ""
+    }
+  ],
+  "generators": {
+    "powershell": "(config) => `foreach ($${config.itemVariable} in $${config.arrayVariable}) {\\n    ${config.loopBody}\\n}`",
+    "bash": "(config) => `for ${config.itemVariable} in \"\\${${config.arrayVariable}[@]}\"; do\\n    ${config.loopBody}\\ndone`"
+  },
+  "metadata": {
+    "tags": ["processing", "loop", "array"],
+    "createdAt": "2025-11-03T00:00:00.000Z",
+    "updatedAt": "2025-11-03T00:00:00.000Z"
+  }
+}

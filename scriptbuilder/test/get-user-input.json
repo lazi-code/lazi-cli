@@ -1,0 +1,40 @@
+{
+  "id": "custom-test-get-user-input",
+  "name": "Get User Input",
+  "category": "Testing",
+  "description": "Prompt user for input and store in a variable",
+  "fields": [
+    {
+      "key": "prompt",
+      "label": "Prompt Text",
+      "type": "text",
+      "placeholder": "Enter your name:",
+      "helperText": "Message to display to the user",
+      "defaultValue": "Enter input:"
+    },
+    {
+      "key": "variableName",
+      "label": "Variable Name",
+      "type": "text",
+      "placeholder": "userInput",
+      "helperText": "Name of variable to store input",
+      "defaultValue": "input"
+    },
+    {
+      "key": "secure",
+      "label": "Secure Input (hide typing)",
+      "type": "boolean",
+      "helperText": "Hide input as user types (for passwords)",
+      "defaultValue": false
+    }
+  ],
+  "generators": {
+    "powershell": "(config) => config.secure ? `$${config.variableName} = Read-Host -Prompt \"${config.prompt}\" -AsSecureString` : `$${config.variableName} = Read-Host -Prompt \"${config.prompt}\"`",
+    "bash": "(config) => config.secure ? `read -sp \"${config.prompt} \" ${config.variableName}` : `read -p \"${config.prompt} \" ${config.variableName}`"
+  },
+  "metadata": {
+    "tags": ["input", "prompt", "user"],
+    "createdAt": "2025-11-03T00:00:00.000Z",
+    "updatedAt": "2025-11-03T00:00:00.000Z"
+  }
+}

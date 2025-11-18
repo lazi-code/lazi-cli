@@ -1,0 +1,91 @@
+{
+  "name": "ScriptBuilder",
+  "description": "Visual workflow automation for PowerShell and Bash scripts",
+  "version": "1.0.0",
+  "commands": [
+    {
+      "name": "scriptbuilder",
+      "command": "node {SCRIPTBUILDER_PATH}/cli.js",
+      "description": "ScriptBuilder CLI - workflow management tool",
+      "tags": ["scriptbuilder", "cli", "workflow"]
+    },
+    {
+      "name": "scriptbuilder-list",
+      "command": "node {SCRIPTBUILDER_PATH}/cli.js list",
+      "description": "List all ScriptBuilder workflows",
+      "tags": ["scriptbuilder", "workflow", "list"]
+    },
+    {
+      "name": "scriptbuilder-show",
+      "command": "node {SCRIPTBUILDER_PATH}/cli.js show {name}",
+      "description": "Show ScriptBuilder workflow details",
+      "tags": ["scriptbuilder", "workflow", "show"]
+    },
+    {
+      "name": "scriptbuilder-create",
+      "command": "node {SCRIPTBUILDER_PATH}/cli.js create {name}",
+      "description": "Create new ScriptBuilder workflow",
+      "tags": ["scriptbuilder", "workflow", "create"]
+    },
+    {
+      "name": "scriptbuilder-delete",
+      "command": "node {SCRIPTBUILDER_PATH}/cli.js delete {name}",
+      "description": "Delete ScriptBuilder workflow",
+      "tags": ["scriptbuilder", "workflow", "delete"]
+    },
+    {
+      "name": "scriptbuilder-generate",
+      "command": "node {SCRIPTBUILDER_PATH}/cli.js generate {name}",
+      "description": "Generate script from ScriptBuilder workflow",
+      "tags": ["scriptbuilder", "workflow", "generate", "script"]
+    },
+    {
+      "name": "scriptbuilder-run",
+      "command": "node {SCRIPTBUILDER_PATH}/cli.js run {name}",
+      "description": "Execute ScriptBuilder workflow",
+      "tags": ["scriptbuilder", "workflow", "run", "execution"]
+    },
+    {
+      "name": "scriptbuilder-add-node",
+      "command": "node {SCRIPTBUILDER_PATH}/cli.js add-node",
+      "description": "Add node to ScriptBuilder workflow (use -- for options like --log, --command, --type)",
+      "tags": ["scriptbuilder", "workflow", "node", "add"]
+    },
+    {
+      "name": "scriptbuilder-connect",
+      "command": "node {SCRIPTBUILDER_PATH}/cli.js connect",
+      "description": "Connect two nodes in ScriptBuilder workflow",
+      "tags": ["scriptbuilder", "workflow", "connection"]
+    },
+    {
+      "name": "scriptbuilder-disconnect",
+      "command": "node {SCRIPTBUILDER_PATH}/cli.js disconnect",
+      "description": "Disconnect two nodes in ScriptBuilder workflow",
+      "tags": ["scriptbuilder", "workflow", "connection"]
+    },
+    {
+      "name": "scriptbuilder-node-list",
+      "command": "node {SCRIPTBUILDER_PATH}/cli.js node list -v",
+      "description": "List all custom ScriptBuilder nodes",
+      "tags": ["scriptbuilder", "node", "list", "custom"]
+    },
+    {
+      "name": "scriptbuilder-node-show",
+      "command": "node {SCRIPTBUILDER_PATH}/cli.js node show {id}",
+      "description": "Show custom ScriptBuilder node details",
+      "tags": ["scriptbuilder", "node", "show", "custom"]
+    },
+    {
+      "name": "scriptbuilder-node-delete",
+      "command": "node {SCRIPTBUILDER_PATH}/cli.js node delete {id}",
+      "description": "Delete custom ScriptBuilder node",
+      "tags": ["scriptbuilder", "node", "delete", "custom"]
+    },
+    {
+      "name": "scriptbuilder-node-create",
+      "command": "node {SCRIPTBUILDER_PATH}/cli.js node create",
+      "description": "Create new custom ScriptBuilder node (use -- for required options: -c category, -d description)",
+      "tags": ["scriptbuilder", "node", "create", "custom"]
+    }
+  ]
+}

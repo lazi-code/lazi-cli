@@ -1,0 +1,331 @@
+{
+  "metadata": {
+    "name": "Comprehensive Mixed Workflow",
+    "description": "Uses BOTH existing custom nodes AND creates new ones, with branching and loops",
+    "author": "Test Suite",
+    "createdAt": "2025-01-04T14:00:00.000Z",
+    "scriptType": "powershell",
+    "version": "1.0"
+  },
+  "workflow": {
+    "nodes": [
+      {
+        "id": "node-1",
+        "type": "scriptNode",
+        "position": {
+          "x": 100,
+          "y": 200
+        },
+        "data": {
+          "script": {
+            "id": "custom-test-get-user-input",
+            "name": "Get User Input",
+            "category": "Input"
+          },
+          "config": {
+            "prompt": "Enter a number (1-100):",
+            "variableName": "userNumber",
+            "secure": false
+          }
+        }
+      },
+      {
+        "id": "node-2",
+        "type": "scriptNode",
+        "position": {
+          "x": 400,
+          "y": 200
+        },
+        "data": {
+          "script": {
+            "id": "custom-mixed-validate-range",
+            "name": "Validate Number Range",
+            "category": "Mixed Test"
+          },
+          "config": {
+            "variableName": "userNumber",
+            "minValue": 1,
+            "maxValue": 100
+          }
+        }
+      },
+      {
+        "id": "node-3",
+        "type": "scriptNode",
+        "position": {
+          "x": 700,
+          "y": 200
+        },
+        "data": {
+          "script": {
+            "id": "custom-test-if-else",
+            "name": "If-Else Conditional",
+            "category": "Control Flow"
+          },
+          "config": {
+            "leftOperand": "$userNumber",
+            "operator": "gt",
+            "rightOperand": "50"
+          }
+        }
+      },
+      {
+        "id": "node-4",
+        "type": "scriptNode",
+        "position": {
+          "x": 900,
+          "y": 100
+        },
+        "data": {
+          "script": {
+            "id": "custom-mixed-calculate-factorial",
+            "name": "Calculate Factorial",
+            "category": "Mixed Test"
+          },
+          "config": {
+            "numberVariable": "userNumber",
+            "resultVariable": "factorial"
+          }
+        }
+      },
+      {
+        "id": "node-5",
+        "type": "scriptNode",
+        "position": {
+          "x": 900,
+          "y": 300
+        },
+        "data": {
+          "script": {
+            "id": "custom-mixed-calculate-square",
+            "name": "Calculate Square",
+            "category": "Mixed Test"
+          },
+          "config": {
+            "numberVariable": "userNumber",
+            "resultVariable": "square"
+          }
+        }
+      },
+      {
+        "id": "node-6",
+        "type": "scriptNode",
+        "position": {
+          "x": 1200,
+          "y": 100
+        },
+        "data": {
+          "script": {
+            "id": "custom-test-print-output",
+            "name": "Print Output",
+            "category": "Output"
+          },
+          "config": {
+            "message": "\"Number $userNumber is large! Factorial: $factorial\"",
+            "outputType": "info"
+          }
+        }
+      },
+      {
+        "id": "node-7",
+        "type": "scriptNode",
+        "position": {
+          "x": 1200,
+          "y": 300
+        },
+        "data": {
+          "script": {
+            "id": "custom-test-print-output",
+            "name": "Print Output",
+            "category": "Output"
+          },
+          "config": {
+            "message": "\"Number $userNumber is small! Square: $square\"",
+            "outputType": "info"
+          }
+        }
+      },
+      {
+        "id": "node-8",
+        "type": "scriptNode",
+        "position": {
+          "x": 1500,
+          "y": 200
+        },
+        "data": {
+          "script": {
+            "id": "custom-test-log-message",
+            "name": "Log Message",
+            "category": "Error Handling"
+          },
+          "config": {
+            "logFile": "C:\\temp\\workflow-log.txt",
+            "message": "\"Workflow completed successfully\"",
+            "includeTimestamp": true
+          }
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-1",
+        "source": "node-1",
+        "target": "node-2",
+        "type": "smoothstep"
+      },
+      {
+        "id": "edge-2",
+        "source": "node-2",
+        "target": "node-3",
+        "type": "smoothstep"
+      },
+      {
+        "id": "edge-3",
+        "source": "node-3",
+        "sourceHandle": "true-path",
+        "target": "node-4",
+        "type": "smoothstep"
+      },
+      {
+        "id": "edge-4",
+        "source": "node-3",
+        "sourceHandle": "false-path",
+        "target": "node-5",
+        "type": "smoothstep"
+      },
+      {
+        "id": "edge-5",
+        "source": "node-4",
+        "target": "node-6",
+        "type": "smoothstep"
+      },
+      {
+        "id": "edge-6",
+        "source": "node-5",
+        "target": "node-7",
+        "type": "smoothstep"
+      },
+      {
+        "id": "edge-7",
+        "source": "node-6",
+        "target": "node-8",
+        "type": "smoothstep"
+      },
+      {
+        "id": "edge-8",
+        "source": "node-7",
+        "target": "node-8",
+        "type": "smoothstep"
+      }
+    ]
+  },
+  "requiredCustomNodes": [
+    {
+      "id": "custom-mixed-validate-range",
+      "name": "Validate Number Range",
+      "category": "Mixed Test",
+      "description": "Check if a number is within a specified range",
+      "fields": [
+        {
+          "key": "variableName",
+          "label": "Variable to Validate",
+          "type": "text",
+          "placeholder": "myNumber",
+          "helperText": "Variable containing the number",
+          "defaultValue": ""
+        },
+        {
+          "key": "minValue",
+          "label": "Minimum Value",
+          "type": "number",
+          "placeholder": "1",
+          "helperText": "Minimum allowed value (inclusive)",
+          "defaultValue": 1
+        },
+        {
+          "key": "maxValue",
+          "label": "Maximum Value",
+          "type": "number",
+          "placeholder": "100",
+          "helperText": "Maximum allowed value (inclusive)",
+          "defaultValue": 100
+        }
+      ],
+      "generators": {
+        "powershell": "(config) => `if ([int]$${config.variableName} -lt ${config.minValue} -or [int]$${config.variableName} -gt ${config.maxValue}) {\\n    Write-Error \\\"Number must be between ${config.minValue} and ${config.maxValue}\\\"\\n    exit 1\\n}`",
+        "bash": "(config) => `if [ $${config.variableName} -lt ${config.minValue} ] || [ $${config.variableName} -gt ${config.maxValue} ]; then\\n    echo \\\"Number must be between ${config.minValue} and ${config.maxValue}\\\" >&2\\n    exit 1\\nfi`"
+      },
+      "metadata": {
+        "tags": ["validation", "range", "number"],
+        "createdAt": "2025-01-04T14:00:00.000Z",
+        "updatedAt": "2025-01-04T14:00:00.000Z"
+      }
+    },
+    {
+      "id": "custom-mixed-calculate-factorial",
+      "name": "Calculate Factorial",
+      "category": "Mixed Test",
+      "description": "Calculate the factorial of a number (n!)",
+      "fields": [
+        {
+          "key": "numberVariable",
+          "label": "Number Variable",
+          "type": "text",
+          "placeholder": "n",
+          "helperText": "Variable containing the number",
+          "defaultValue": ""
+        },
+        {
+          "key": "resultVariable",
+          "label": "Result Variable",
+          "type": "text",
+          "placeholder": "result",
+          "helperText": "Variable to store the factorial",
+          "defaultValue": "factorial"
+        }
+      ],
+      "generators": {
+        "powershell": "(config) => `$${config.resultVariable} = 1\\nfor ($i = 1; $i -le [int]$${config.numberVariable}; $i++) {\\n    $${config.resultVariable} *= $i\\n}`",
+        "bash": "(config) => `${config.resultVariable}=1\\nfor ((i=1; i<=$${config.numberVariable}; i++)); do\\n    ${config.resultVariable}=$((${config.resultVariable} * i))\\ndone`"
+      },
+      "metadata": {
+        "tags": ["math", "factorial", "calculation"],
+        "createdAt": "2025-01-04T14:00:00.000Z",
+        "updatedAt": "2025-01-04T14:00:00.000Z"
+      }
+    },
+    {
+      "id": "custom-mixed-calculate-square",
+      "name": "Calculate Square",
+      "category": "Mixed Test",
+      "description": "Calculate the square of a number (n²)",
+      "fields": [
+        {
+          "key": "numberVariable",
+          "label": "Number Variable",
+          "type": "text",
+          "placeholder": "n",
+          "helperText": "Variable containing the number",
+          "defaultValue": ""
+        },
+        {
+          "key": "resultVariable",
+          "label": "Result Variable",
+          "type": "text",
+          "placeholder": "result",
+          "helperText": "Variable to store the square",
+          "defaultValue": "square"
+        }
+      ],
+      "generators": {
+        "powershell": "(config) => `$${config.resultVariable} = [int]$${config.numberVariable} * [int]$${config.numberVariable}`",
+        "bash": "(config) => `${config.resultVariable}=$(($${config.numberVariable} * $${config.numberVariable}))`"
+      },
+      "metadata": {
+        "tags": ["math", "square", "calculation"],
+        "createdAt": "2025-01-04T14:00:00.000Z",
+        "updatedAt": "2025-01-04T14:00:00.000Z"
+      }
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "custom-test-break-loop",
+  "name": "Break Loop",
+  "category": "Testing",
+  "description": "Exit the current loop immediately",
+  "fields": [
+    {
+      "key": "conditional",
+      "label": "Conditional Break",
+      "type": "boolean",
+      "helperText": "Only break if condition is true",
+      "defaultValue": false
+    },
+    {
+      "key": "condition",
+      "label": "Condition",
+      "type": "text",
+      "placeholder": "$count -gt 100",
+      "helperText": "Break only if this condition is true",
+      "defaultValue": ""
+    }
+  ],
+  "generators": {
+    "powershell": "(config) => { if (config.conditional && config.condition) { return `if (${config.condition}) { break }`; } return `break`; }",
+    "bash": "(config) => { if (config.conditional && config.condition) { return `if ${config.condition}; then break; fi`; } return `break`; }"
+  },
+  "metadata": {
+    "tags": ["control-flow", "loop", "break"],
+    "createdAt": "2025-11-03T00:00:00.000Z",
+    "updatedAt": "2025-11-03T00:00:00.000Z"
+  }
+}

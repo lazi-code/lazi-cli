@@ -1,0 +1,47 @@
+{
+  "id": "custom-test-string-replace",
+  "name": "String Replace",
+  "category": "Testing",
+  "description": "Replace text in a string or variable",
+  "fields": [
+    {
+      "key": "variableName",
+      "label": "Variable Name",
+      "type": "text",
+      "placeholder": "myVariable",
+      "helperText": "Variable containing the text",
+      "defaultValue": "text"
+    },
+    {
+      "key": "searchPattern",
+      "label": "Search Pattern",
+      "type": "text",
+      "placeholder": "old text",
+      "helperText": "Text or regex pattern to find",
+      "defaultValue": ""
+    },
+    {
+      "key": "replacement",
+      "label": "Replacement",
+      "type": "text",
+      "placeholder": "new text",
+      "helperText": "Text to replace with",
+      "defaultValue": ""
+    },
+    {
+      "key": "useRegex",
+      "label": "Use Regular Expression",
+      "type": "boolean",
+      "defaultValue": false
+    }
+  ],
+  "generators": {
+    "powershell": "(config) => `$${config.variableName} = $${config.variableName} -replace \"${config.searchPattern}\", \"${config.replacement}\"`",
+    "bash": "(config) => `${config.variableName}=\\${${config.variableName}//${config.searchPattern}/${config.replacement}}`"
+  },
+  "metadata": {
+    "tags": ["processing", "string", "replace"],
+    "createdAt": "2025-11-03T00:00:00.000Z",
+    "updatedAt": "2025-11-03T00:00:00.000Z"
+  }
+}

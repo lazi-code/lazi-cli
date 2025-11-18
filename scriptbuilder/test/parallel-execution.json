@@ -1,0 +1,52 @@
+{
+  "id": "custom-test-parallel-execution",
+  "name": "Parallel Execution",
+  "category": "Testing",
+  "description": "Execute multiple branches concurrently",
+  "outputHandles": [
+    {
+      "id": "branch-1",
+      "label": "Branch 1",
+      "position": "left",
+      "color": "#10b981"
+    },
+    {
+      "id": "branch-2",
+      "label": "Branch 2",
+      "position": "bottom",
+      "color": "#f59e0b"
+    },
+    {
+      "id": "branch-3",
+      "label": "Branch 3",
+      "position": "right",
+      "color": "#6366f1"
+    }
+  ],
+  "fields": [
+    {
+      "key": "waitForCompletion",
+      "label": "Wait for All Branches",
+      "type": "boolean",
+      "helperText": "Block until all branches complete",
+      "defaultValue": true
+    },
+    {
+      "key": "timeout",
+      "label": "Timeout (seconds)",
+      "type": "number",
+      "placeholder": "60",
+      "helperText": "Max time to wait for branches (0 = no timeout)",
+      "defaultValue": 0
+    }
+  ],
+  "generators": {
+    "powershell": "(config, branches) => { let code = `# Start parallel jobs\\n`; code += `$jobs = @()\\n\\n`; if (branches?.['branch-1']) { code += `$jobs += Start-Job -ScriptBlock {\\n`; code += `    ${branches['branch-1'].replace(/\\n/g, '\\n    ')}\\n`; code += `}\\n\\n`; } if (branches?.['branch-2']) { code += `$jobs += Start-Job -ScriptBlock {\\n`; code += `    ${branches['branch-2'].replace(/\\n/g, '\\n    ')}\\n`; code += `}\\n\\n`; } if (branches?.['branch-3']) { code += `$jobs += Start-Job -ScriptBlock {\\n`; code += `    ${branches['branch-3'].replace(/\\n/g, '\\n    ')}\\n`; code += `}\\n\\n`; } if (config.waitForCompletion) { const timeout = Number(config.timeout) || 0; if (timeout > 0) { code += `# Wait for jobs with timeout\\n`; code += `$jobs | Wait-Job -Timeout ${timeout} | Out-Null\\n`; code += `$jobs | Receive-Job\\n`; code += `$jobs | Remove-Job`; } else { code += `# Wait for all jobs to complete\\n`; code += `$jobs | Wait-Job | Out-Null\\n`; code += `$jobs | Receive-Job\\n`; code += `$jobs | Remove-Job`; } } return code; }",
+    "bash": "(config, branches) => { let code = `# Start parallel background processes\\n`; const pids = []; if (branches?.['branch-1']) { code += `(\\n`; code += `    ${branches['branch-1'].replace(/\\n/g, '\\n    ')}\\n`; code += `) &\\n`; code += `pid1=$!\\n\\n`; pids.push('$pid1'); } if (branches?.['branch-2']) { code += `(\\n`; code += `    ${branches['branch-2'].replace(/\\n/g, '\\n    ')}\\n`; code += `) &\\n`; code += `pid2=$!\\n\\n`; pids.push('$pid2'); } if (branches?.['branch-3']) { code += `(\\n`; code += `    ${branches['branch-3'].replace(/\\n/g, '\\n    ')}\\n`; code += `) &\\n`; code += `pid3=$!\\n\\n`; pids.push('$pid3'); } if (config.waitForCompletion && pids.length > 0) { const timeout = Number(config.timeout) || 0; code += `# Wait for all background processes\\n`; if (timeout > 0) { code += `# Note: Bash doesn't have built-in timeout for wait\\n`; code += `wait ${pids.join(' ')}`; } else { code += `wait ${pids.join(' ')}`; } } return code; }"
+  },
+  "metadata": {
+    "tags": ["control-flow", "parallel", "concurrent"],
+    "createdAt": "2025-11-03T00:00:00.000Z",
+    "updatedAt": "2025-11-03T00:00:00.000Z"
+  }
+}

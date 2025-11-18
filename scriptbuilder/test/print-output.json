@@ -1,0 +1,36 @@
+{
+  "id": "custom-test-print-output",
+  "name": "Print Output",
+  "category": "Testing",
+  "description": "Display text or variable to console",
+  "fields": [
+    {
+      "key": "message",
+      "label": "Message",
+      "type": "textarea",
+      "placeholder": "Hello, World!",
+      "helperText": "Text or variable to display",
+      "defaultValue": ""
+    },
+    {
+      "key": "outputType",
+      "label": "Output Type",
+      "type": "select",
+      "options": [
+        { "label": "Information", "value": "info" },
+        { "label": "Warning", "value": "warning" },
+        { "label": "Error", "value": "error" }
+      ],
+      "defaultValue": "info"
+    }
+  ],
+  "generators": {
+    "powershell": "(config) => { if (config.outputType === 'warning') return `Write-Warning ${config.message}`; if (config.outputType === 'error') return `Write-Error ${config.message}`; return `Write-Host ${config.message}`; }",
+    "bash": "(config) => { if (config.outputType === 'error') return `echo ${config.message} >&2`; return `echo ${config.message}`; }"
+  },
+  "metadata": {
+    "tags": ["output", "print", "console"],
+    "createdAt": "2025-11-03T00:00:00.000Z",
+    "updatedAt": "2025-11-03T00:00:00.000Z"
+  }
+}
