@@ -1,6 +1,6 @@
 {
   "name": "ScriptBuilder",
-  "description": "Visual workflow automation for PowerShell and Bash scripts",
+  "description": "workflow automation for PowerShell and Bash scripts",
   "version": "1.0.0",
   "commands": [
     {

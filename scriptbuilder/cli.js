@@ -212,7 +212,7 @@ function generateScript(workflow, scriptType) {
 
 program
   .name('scriptbuilder')
-  .description('ScriptBuilder CLI - Manage and execute visual workflows')
+  .description('ScriptBuilder CLI - Manage and execute workflows')
   .version('1.0.0');
 
 // List command
