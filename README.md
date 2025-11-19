@@ -1,6 +1,6 @@
 # lazi-core-cli
 
-A command management and automation ecosystem combining a powerful CLI tool and a visual script builder for creating and executing PowerShell and Bash scripts.
+A command management and automation ecosystem combining a powerful CLI tool with a workflow script builder for creating and executing PowerShell and Bash scripts.
 
 ## 📦 Components
 
@@ -19,17 +19,16 @@ A powerful CLI tool to save, manage, and execute your commonly used commands wit
 - 🔌 Preset system for tool integrations
 
 ### [Script Builder](./scriptbuilder/)
-A visual node-based editor for composing PowerShell and Bash scripts with an interactive canvas interface.
+A CLI tool for composing PowerShell and Bash scripts using JSON workflow definitions with template-based code generation.
 
 **Key Features:**
-- 🎨 Visual canvas with pan/zoom and minimap (powered by React Flow)
 - 🔀 Dual script support - Generate PowerShell or Bash from the same workflow
-- 🔗 Lazi integration - Access registered commands as nodes
-- 🧩 Custom node creation for reusable components
-- 📋 Execution history and step logging
-- 🎯 28+ built-in operation nodes across multiple categories
-- 📝 Live script preview with copy and download
-- 💻 Full CLI support for workflow management
+- 🔗 Lazi integration - Execute registered commands as workflow steps
+- 📋 Execution history and step logging with event tracking
+- 🔧 Custom node creation for reusable components
+- 💻 Complete CLI for workflow and node management
+- 📝 Template engine for code generation
+- 🏗️ Build scripts from execution history steps
 
 ## 🚀 Quick Start
 
@@ -37,7 +36,7 @@ A visual node-based editor for composing PowerShell and Bash scripts with an int
 - Node.js 14+ 
 - npm or yarn
 
-### Installation
+### Setup
 
 ```bash
 # Install all dependencies
@@ -50,35 +49,33 @@ cd ../scriptbuilder
 npm install
 ```
 
-### Building
-
-**Lazi Core-CLI:**
+**Script Builder link to Lazi:**
 ```bash
-cd lazi-core-cli
-npm run build        # Compile TypeScript (src/ → bin/)
-```
-
-**Script Builder:**
-```bash
-cd scriptbuilder
-npm run build        # Build the application
+lazi setup scriptbuilder     # One-time setup (registers scriptbuilder commands)
 ```
 
 ### Usage
-
-**Script Builder via Lazi:**
-```bash
-lazi setup scriptbuilder     # One-time setup
-lazi run scriptbuilder-list  # List workflows
-lazi run scriptbuilder-run <workflow-name>  # Run a workflow
-```
 
 **Lazi CLI:**
 ```bash
 lazi add <name> <command>    # Save a command
 lazi list                    # List all commands
 lazi run <name>              # Execute a saved command
-lazi search <query>          # Search commands
+lazi logs -n 10              # View execution history
+```
+
+**Script Builder Usage when setup via Lazi:**
+```bash
+lazi run scriptbuilder-list  # List workflows
+lazi run scriptbuilder-run <workflow-name>  # Run a workflow
+```
+
+**Script Builder Direct CLI:**
+```bash
+cd scriptbuilder
+node cli.js list             # List workflows
+node cli.js create my-workflow -t powershell
+node cli.js run my-workflow
 ```
 
 ## 📚 Documentation

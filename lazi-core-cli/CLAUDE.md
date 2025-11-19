@@ -453,7 +453,7 @@ private getNextLogId(): number {
 
 ## ScriptBuilder Integration
 
-Lazi integrates with ScriptBuilder CLI for visual workflow automation.
+Lazi integrates with ScriptBuilder CLI for JSON-based workflow automation.
 
 ### Preset Setup
 

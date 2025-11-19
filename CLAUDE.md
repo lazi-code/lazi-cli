@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This is the **App** repository, which contains a command management and automation ecosystem. The main components are:
 
 - **lazi-core-cli/** - Core CLI tool for managing and executing command shortcuts
-- **scriptbuilder/** - Visual node-based editor for composing PowerShell and Bash scripts
+- **scriptbuilder/** - CLI tool for composing PowerShell and Bash scripts using JSON workflow definitions
 
 Each subdirectory has its own README.md and/or CLAUDE.md with detailed documentation. This file provides high-level guidance for working across the entire repository.
 
@@ -60,7 +60,7 @@ The repository implements an integrated ecosystem where tools work together thro
 This repository contains two main tools:
 
 1. **lazi-core-cli/** - Core CLI tool ("lazi" command) for managing and executing command shortcuts with logging and batch execution
-2. **scriptbuilder/** - Visual node-based editor for composing PowerShell and Bash scripts with Lazi integration
+2. **scriptbuilder/** - CLI tool for composing PowerShell and Bash scripts using JSON workflow definitions with Lazi integration
 
 ## Architecture Highlights
 
@@ -115,10 +115,10 @@ lazi add demo "echo test" THEN run demo THEN logs -n 5
 - Stores step code in event logs for reuse
 
 **Single Source of Truth:**
-Both GUI and CLI use `.lazi-custom-nodes.json` ensuring zero duplication:
+ScriptBuilder reads `.lazi-custom-nodes.json` from the shared storage:
 ```
 ~/.lazi/.lazi-custom-nodes.json
-    ├── ScriptBuilder (via fs.readFileSync)
+    ├── ScriptBuilder CLI (via fs.readFileSync)
     └── Lazi CLI (via Config.getStorageDir())
 ```
 
@@ -167,25 +167,12 @@ App/
 │   ├── CLAUDE.md             [Lazi-specific docs]
 │   └── README.md
 │
-├── scriptbuilder/            [VISUAL SCRIPT EDITOR]
-│   ├── ScriptBuilder.tsx     [Main React component]
-│   ├── ExecutionHistoryModal.tsx  [Execution history browser & build from steps]
-│   ├── scriptCatalog.ts      [Operation definitions]
-│   ├── customNodeTypes.ts    [Custom node type definitions]
-│   ├── templateEngine.ts     [Template & function compiler (TypeScript)]
-│   ├── templateEngine.js     [Template & function compiler (JavaScript for CLI)]
-│   ├── customNodeLoader.ts   [Custom node loading & conversion]
-│   ├── CustomNodeModal.tsx   [Custom node creation modal]
-│   ├── ScriptBuilder.css
-│   ├── index.html
-│   ├── main.tsx
-│   ├── index.css
+├── scriptbuilder/            [CLI SCRIPT BUILDER]
 │   ├── cli.js                [CLI tool for workflow & node management]
-│   ├── package.json
-│   ├── vite.config.ts
-│   ├── tsconfig.json
-│   ├── README.md
+│   ├── templateEngine.js     [Template & function compiler]
 │   ├── scriptbuilder-preset.json  [Preset for lazi setup command]
+│   ├── package.json
+│   ├── README.md
 │   └── node_modules/
 │
 └── CLAUDE.md                 [This file - repository overview]
@@ -259,20 +246,19 @@ All commands use consistent `scriptbuilder-` prefix:
 - scriptbuilder-add-node, scriptbuilder-connect, scriptbuilder-disconnect
 - scriptbuilder-node-list, scriptbuilder-node-show, scriptbuilder-node-delete, scriptbuilder-node-create
 
-## 2. scriptbuilder (Visual Workflow Tool)
+## 2. scriptbuilder (CLI Workflow Tool)
 
 ### Purpose
-Visual node-based editor for creating PowerShell and Bash scripts with integrated access to Lazi commands.
+CLI tool for creating PowerShell and Bash scripts using JSON workflow definitions with integrated access to Lazi commands.
 
 ### Key Features
-- **Visual canvas** powered by React Flow with pan/zoom, minimap, and smooth connections
-- **Dual script support** - Generate PowerShell or Bash scripts from the same visual workflow
-- **Lazi integration** - Use your registered commands as nodes in visual scripts
-- **Run Script functionality** - Execute scripts directly with Lazi event logging
-- **Execution History Modal** - Browse past executions, view step code, and build new scripts from successful steps
-- **Full-Featured CLI** - Complete workflow management from command line
-- **Custom Node Creation** - Build reusable nodes with complete control over fields, outputs, and code generation
-- **Single Source of Truth** - Both GUI and CLI use `.lazi-custom-nodes.json` for zero duplication
+- **Dual script support** - Generate PowerShell or Bash scripts from the same workflow definition
+- **Lazi integration** - Use your registered commands as workflow steps
+- **Workflow management** - Create, list, show, delete, and run workflows
+- **Custom Node Creation** - Build reusable nodes with complete control over fields and code generation
+- **Execution History** - Browse past executions with `lazi events` and build new scripts from steps
+- **Template Engine** - Flexible code generation supporting templates and JavaScript functions
+- **Shared Storage** - Uses `.lazi-custom-nodes.json` and `~/.lazi/workflows/` for data
 
 ### Installation
 ```bash
@@ -314,28 +300,24 @@ lazi build --from-steps <ids> [--type powershell|bash] [-o output.ps1] [--name "
 ### Lazi Integration
 
 **How it works:**
-1. ScriptBuilder can use commands from Lazi registry as nodes
-2. Parameters from Lazi commands become form fields in the node inspector
+1. ScriptBuilder can use commands from Lazi registry as workflow steps
+2. Parameters from Lazi commands are defined in the JSON workflow definition
 3. Generated scripts include `lazi run <name> [params]` commands
 4. Execution logs are stored in Lazi with event-based structure
 
 **Example workflow:**
-```
-1. You have a registered command:
-   lazi add backup "bash backup.sh {target}"
+```bash
+# 1. Register a command in Lazi
+lazi add backup "bash backup.sh {target}"
 
-2. In ScriptBuilder:
-   - Add "backup" node from visual catalog
-   - Configure "target" parameter (e.g., "/data/important")
-   - Connect to other nodes
+# 2. Add it to a ScriptBuilder workflow
+scriptbuilder add-node my-workflow --command backup
 
-3. Generated PowerShell script:
-   # Run lazi command: backup
-   lazi run backup "/data/important"
+# 3. Generated PowerShell script includes:
+lazi run backup "/data/important"
 
-4. Generated Bash script:
-   # Run lazi command: backup
-   lazi run backup "/data/important"
+# 4. Generated Bash script includes:
+lazi run backup "/data/important"
 ```
 
 ## Data Files (Storage)
@@ -525,6 +507,6 @@ lazi migrate-storage --reset
 
 The App ecosystem provides a comprehensive command management and automation solution:
 - **lazi-core-cli**: Command storage, execution, logging, batch operations
-- **scriptbuilder**: Visual workflow builder with Lazi integration
+- **scriptbuilder**: CLI-based workflow builder with JSON definitions and Lazi integration
 
-Together, they enable powerful workflows for command automation, visual scripting with custom operations, and execution history management.
+Together, they enable powerful workflows for command automation, scripting with custom operations, and execution history management.

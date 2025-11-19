@@ -1519,7 +1519,7 @@ program
         path.join(process.cwd(), toolName, `${toolName}-preset.json`),
         // Sibling directory
         path.join(process.cwd(), '..', toolName, `${toolName}-preset.json`),
-        // Relative to cmdregistry directory (when in development)
+        // Relative to compiled bin directory (when in development)
         path.join(__dirname, '..', '..', toolName, `${toolName}-preset.json`)
       ];
 
